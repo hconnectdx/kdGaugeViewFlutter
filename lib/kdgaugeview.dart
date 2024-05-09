@@ -384,7 +384,7 @@ class _KdGaugeCustomPainter extends CustomPainter {
     );
 
     unitOfMeasurementOffset =
-        center!.translate(-textPainter.width / 2, -textPainter.height / 2);
+        center!.translate(-textPainter.width / 2, (textPainter.height / 8));
     textPainter.paint(canvas, unitOfMeasurementOffset);
   }
 
