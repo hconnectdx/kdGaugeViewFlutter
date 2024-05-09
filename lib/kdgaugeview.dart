@@ -75,7 +75,8 @@ class KdGaugeView extends StatefulWidget {
   KdGaugeViewState createState() => KdGaugeViewState(speed, animate);
 }
 
-class KdGaugeViewState extends State<KdGaugeView> with SingleTickerProviderStateMixin {
+class KdGaugeViewState extends State<KdGaugeView>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -105,7 +106,8 @@ class KdGaugeViewState extends State<KdGaugeView> with SingleTickerProviderState
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller)
       ..addListener(() {
         setState(() {
-          _gaugeMarkSpeed = lastMarkSpeed + (_speed - lastMarkSpeed) * _animation.value;
+          _gaugeMarkSpeed =
+              lastMarkSpeed + (_speed - lastMarkSpeed) * _animation.value;
         });
       })
       ..addStatusListener((status) {
@@ -238,8 +240,12 @@ class _KdGaugeCustomPainter extends CustomPainter {
     canvas.drawCircle(center!, mRadius, paint..color = baseGaugeColor);
 
     //Draw inactive gauge view
-    canvas.drawArc(Rect.fromCircle(center: center!, radius: mRadius), degToRad(arcStartAngle) as double,
-        degToRad(arcSweepAngle) as double, false, paint..color = Colors.grey.withOpacity(.4));
+    canvas.drawArc(
+        Rect.fromCircle(center: center!, radius: mRadius),
+        degToRad(arcStartAngle) as double,
+        degToRad(arcSweepAngle) as double,
+        false,
+        paint..color = Colors.grey.withOpacity(.4));
 
     if (activeGaugeGradientColor == null) {
       //Draw active gauge view
@@ -247,9 +253,11 @@ class _KdGaugeCustomPainter extends CustomPainter {
         for (int i = 0; alertSpeedArray.length > i; i++) {
           if (i == 0 && speed <= alertSpeedArray[i]) {
             paint.color = activeGaugeColor;
-          } else if (i == alertSpeedArray.length - 1 && speed >= alertSpeedArray[i]) {
+          } else if (i == alertSpeedArray.length - 1 &&
+              speed >= alertSpeedArray[i]) {
             paint.color = alertColorArray[i];
-          } else if (alertSpeedArray[i] <= speed && speed <= alertSpeedArray[i + 1]) {
+          } else if (alertSpeedArray[i] <= speed &&
+              speed <= alertSpeedArray[i + 1]) {
             paint.color = alertColorArray[i];
             break;
           } else {
@@ -263,41 +271,15 @@ class _KdGaugeCustomPainter extends CustomPainter {
       paint.shader = activeGaugeGradientColor;
     }
 
-    canvas.drawArc(Rect.fromCircle(center: center!, radius: mRadius), degToRad(arcStartAngle) as double,
-        degToRad(_getAngleOfSpeed(speed)) as double, false, paint);
+    canvas.drawArc(
+        Rect.fromCircle(center: center!, radius: mRadius),
+        degToRad(arcStartAngle) as double,
+        degToRad(_getAngleOfSpeed(speed)) as double,
+        false,
+        paint);
 
     //Going to draw division, Subdivision and Alert Circle
     paint.style = PaintingStyle.fill;
-
-    //draw division dots circle(big one)
-    paint.color = divisionCircleColors;
-    for (double i = 0; 270 >= i; i = i + 45) {
-      canvas.drawCircle(_getDegreeOffsetOnCircle(mDottedCircleRadius, i + arcStartAngle), minDimension * .012, paint);
-    }
-
-    //draw subDivision dots circle(small one)
-    paint.color = subDivisionCircleColors;
-
-    for (double i = 0; 270 >= i; i = i + 5) {
-      canvas.drawCircle(_getDegreeOffsetOnCircle(mDottedCircleRadius, i + arcStartAngle), minDimension * .005, paint);
-    }
-
-    //Draw alert indicator
-    for (int i = 0; alertSpeedArray.length > i; i++) {
-      paint.color = alertColorArray[i];
-      canvas.drawCircle(
-          _getDegreeOffsetOnCircle(mDottedCircleRadius, _getAngleOfSpeed(alertSpeedArray[i]) + arcStartAngle),
-          minDimension * .015,
-          paint);
-    }
-
-    //Draw Min Text
-    _drawMinText(canvas, size);
-    //Draw Max Text
-    _drawMaxText(canvas, size);
-
-    //Draw Unit of Measurement
-    _drawUnitOfMeasurementText(canvas, size);
 
     //Draw Speed Text
     _drawSpeedText(canvas, size);
@@ -317,11 +299,13 @@ class _KdGaugeCustomPainter extends CustomPainter {
 
   double _getAngleOfSpeed(double speed) {
     //limit speed to max speed
-    return (speed < maxSpeed ? speed : maxSpeed) / ((maxSpeed - minSpeed) / arcSweepAngle);
+    return (speed < maxSpeed ? speed : maxSpeed) /
+        ((maxSpeed - minSpeed) / arcSweepAngle);
   }
 
   void _drawMinText(Canvas canvas, Size size) {
-    TextSpan span = new TextSpan(style: minMaxTextStyle, text: minSpeed.toStringAsFixed(fractionDigits));
+    TextSpan span = new TextSpan(
+        style: minMaxTextStyle, text: minSpeed.toStringAsFixed(fractionDigits));
     TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
@@ -332,14 +316,16 @@ class _KdGaugeCustomPainter extends CustomPainter {
     );
 
     //Get the start point of Gauge
-    Offset offset = _getDegreeOffsetOnCircle(mDottedCircleRadius, arcStartAngle);
+    Offset offset =
+        _getDegreeOffsetOnCircle(mDottedCircleRadius, arcStartAngle);
     //translate textPainter offset to bottom anchor the start point of the gauge
     offset = offset.translate(0, -textPainter.height);
     textPainter.paint(canvas, offset);
   }
 
   void _drawMaxText(Canvas canvas, Size size) {
-    TextSpan span = new TextSpan(style: minMaxTextStyle, text: maxSpeed.toStringAsFixed(fractionDigits));
+    TextSpan span = new TextSpan(
+        style: minMaxTextStyle, text: maxSpeed.toStringAsFixed(fractionDigits));
     TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
@@ -350,7 +336,8 @@ class _KdGaugeCustomPainter extends CustomPainter {
     );
 
     //Get the end point of Gauge
-    Offset offset = _getDegreeOffsetOnCircle(mDottedCircleRadius, arcStartAngle + arcSweepAngle);
+    Offset offset = _getDegreeOffsetOnCircle(
+        mDottedCircleRadius, arcStartAngle + arcSweepAngle);
     //translate textPainter offset to bottom anchor the start point of the gauge
     offset = offset.translate(-textPainter.width, -textPainter.height);
     textPainter.paint(canvas, offset);
@@ -359,11 +346,13 @@ class _KdGaugeCustomPainter extends CustomPainter {
   void _drawUnitOfMeasurementText(Canvas canvas, Size size) {
     //Get the center point of the minSpeed and maxSpeed label
     //that would be center of the unit of measurement text
-    Offset minTextOffset = _getDegreeOffsetOnCircle(mDottedCircleRadius, arcStartAngle);
+    Offset minTextOffset =
+        _getDegreeOffsetOnCircle(mDottedCircleRadius, arcStartAngle);
 
     Offset unitOfMeasurementOffset = Offset(size.width / 2, minTextOffset.dy);
 
-    TextSpan span = new TextSpan(style: unitOfMeasurementTextStyle, text: unitOfMeasurement);
+    TextSpan span = new TextSpan(
+        style: unitOfMeasurementTextStyle, text: unitOfMeasurement);
     TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
@@ -373,7 +362,8 @@ class _KdGaugeCustomPainter extends CustomPainter {
       maxWidth: size.width,
     );
 
-    unitOfMeasurementOffset = unitOfMeasurementOffset.translate(-textPainter.width / 2, -textPainter.height / 2);
+    unitOfMeasurementOffset = unitOfMeasurementOffset.translate(
+        -textPainter.width / 2, -textPainter.height / 2);
     textPainter.paint(canvas, unitOfMeasurementOffset);
   }
 
@@ -382,7 +372,8 @@ class _KdGaugeCustomPainter extends CustomPainter {
 
     Offset? unitOfMeasurementOffset = center;
 
-    TextSpan span = new TextSpan(style: speedTextStyle, text: speed.toStringAsFixed(fractionDigits));
+    TextSpan span = new TextSpan(
+        style: speedTextStyle, text: speed.toStringAsFixed(fractionDigits));
     TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
@@ -392,7 +383,8 @@ class _KdGaugeCustomPainter extends CustomPainter {
       maxWidth: size.width,
     );
 
-    unitOfMeasurementOffset = center!.translate(-textPainter.width / 2, -textPainter.height / 2);
+    unitOfMeasurementOffset =
+        center!.translate(-textPainter.width / 2, -textPainter.height / 2);
     textPainter.paint(canvas, unitOfMeasurementOffset);
   }
 
