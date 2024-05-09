@@ -282,7 +282,7 @@ class _KdGaugeCustomPainter extends CustomPainter {
     paint.style = PaintingStyle.fill;
 
     //Draw Speed Text
-    _drawSpeedText(canvas, size);
+    // _drawSpeedText(canvas, size);
   }
 
   @override
