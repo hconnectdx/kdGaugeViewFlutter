@@ -168,7 +168,7 @@ class KdGaugeViewState extends State<KdGaugeView>
 
 class _KdGaugeCustomPainter extends CustomPainter {
   //We are considering this start angle starting point for gauge view
-  final double arcStartAngle = 0;
+  final double arcStartAngle = 90;
   final double arcSweepAngle = 360;
 
   final double speed;
