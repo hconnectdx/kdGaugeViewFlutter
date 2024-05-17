@@ -245,7 +245,7 @@ class _KdGaugeCustomPainter extends CustomPainter {
         degToRad(arcStartAngle) as double,
         degToRad(arcSweepAngle) as double,
         false,
-        paint..color = Colors.grey.withOpacity(.4));
+        paint..color = baseGaugeColor.withOpacity(1));
 
     if (activeGaugeGradientColor == null) {
       //Draw active gauge view
