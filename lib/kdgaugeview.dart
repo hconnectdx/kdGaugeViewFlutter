@@ -19,6 +19,7 @@ class KdGaugeView extends StatefulWidget {
 
   final double gaugeWidth;
   final Color baseGaugeColor;
+  final Color baseBackgroundColor;
   final Color inactiveGaugeColor;
   final Color activeGaugeColor;
   final ui.Gradient? activeGaugeGradientColor;
@@ -57,6 +58,7 @@ class KdGaugeView extends StatefulWidget {
       this.alertSpeedArray = const [],
       this.alertColorArray = const [],
       this.gaugeWidth = 10,
+      this.baseBackgroundColor = Colors.white,
       this.baseGaugeColor = Colors.transparent,
       this.inactiveGaugeColor = Colors.black87,
       this.activeGaugeColor = Colors.green,
@@ -140,6 +142,7 @@ class KdGaugeViewState extends State<KdGaugeView>
           widget.alertColorArray,
           widget.gaugeWidth,
           widget.baseGaugeColor,
+          widget.baseBackgroundColor,
           widget.inactiveGaugeColor,
           widget.activeGaugeColor,
           widget.innerCirclePadding,
@@ -168,7 +171,7 @@ class KdGaugeViewState extends State<KdGaugeView>
 
 class _KdGaugeCustomPainter extends CustomPainter {
   //We are considering this start angle starting point for gauge view
-  final double arcStartAngle = 90;
+  final double arcStartAngle = 270;
   final double arcSweepAngle = 360;
 
   final double speed;
@@ -186,6 +189,7 @@ class _KdGaugeCustomPainter extends CustomPainter {
 
   final double gaugeWidth;
   final Color baseGaugeColor;
+  final Color baseBackgroundColor;
   final Color inactiveGaugeColor;
   final Color activeGaugeColor;
   final ui.Gradient? activeGaugeGradientColor;
@@ -202,24 +206,26 @@ class _KdGaugeCustomPainter extends CustomPainter {
   final int fractionDigits;
 
   _KdGaugeCustomPainter(
-      this.speed,
-      this.speedTextStyle,
-      this.unitOfMeasurement,
-      this.unitOfMeasurementTextStyle,
-      this.minSpeed,
-      this.maxSpeed,
-      this.minMaxTextStyle,
-      this.alertSpeedArray,
-      this.alertColorArray,
-      this.gaugeWidth,
-      this.baseGaugeColor,
-      this.inactiveGaugeColor,
-      this.activeGaugeColor,
-      this.innerCirclePadding,
-      this.subDivisionCircleColors,
-      this.divisionCircleColors,
-      this.fractionDigits,
-      this.activeGaugeGradientColor);
+    this.speed,
+    this.speedTextStyle,
+    this.unitOfMeasurement,
+    this.unitOfMeasurementTextStyle,
+    this.minSpeed,
+    this.maxSpeed,
+    this.minMaxTextStyle,
+    this.alertSpeedArray,
+    this.alertColorArray,
+    this.gaugeWidth,
+    this.baseGaugeColor,
+    this.baseBackgroundColor,
+    this.inactiveGaugeColor,
+    this.activeGaugeColor,
+    this.innerCirclePadding,
+    this.subDivisionCircleColors,
+    this.divisionCircleColors,
+    this.fractionDigits,
+    this.activeGaugeGradientColor,
+  );
   @override
   void paint(Canvas canvas, Size size) {
     //get the center of the view
@@ -230,22 +236,29 @@ class _KdGaugeCustomPainter extends CustomPainter {
 
     mDottedCircleRadius = mRadius - innerCirclePadding;
 
+    // Draw background circle
+    Paint backgroundPaint = Paint();
+    backgroundPaint.color = Colors.white;
+    backgroundPaint.style = PaintingStyle.fill;
+    canvas.drawCircle(
+        center!, mRadius, backgroundPaint..color = baseBackgroundColor);
+
+    //Draw base gauge
     Paint paint = Paint();
     paint.color = Colors.red;
     paint.strokeWidth = gaugeWidth;
     paint.strokeCap = StrokeCap.round;
     paint.style = PaintingStyle.stroke;
 
-    //Draw base gauge
     canvas.drawCircle(center!, mRadius, paint..color = baseGaugeColor);
 
-    //Draw inactive gauge view
-    canvas.drawArc(
-        Rect.fromCircle(center: center!, radius: mRadius),
-        degToRad(arcStartAngle) as double,
-        degToRad(arcSweepAngle) as double,
-        false,
-        paint..color = baseGaugeColor.withOpacity(1));
+    // //Draw inactive gauge view
+    // canvas.drawArc(
+    //     Rect.fromCircle(center: center!, radius: mRadius),
+    //     degToRad(arcStartAngle) as double,
+    //     degToRad(arcSweepAngle) as double,
+    //     false,
+    //     paint..color = baseGaugeColor.withOpacity(1));
 
     if (activeGaugeGradientColor == null) {
       //Draw active gauge view
