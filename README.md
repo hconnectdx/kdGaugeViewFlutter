@@ -1,5 +1,5 @@
-# Invites 에서 사용하고 있는 라이브러리
-이 라이브러리를 커스텀하여 인바이츠앱에 사용
+# Invites 에서 사용하고 있는 그래프 라이브러리
+이 라이브러리를 커스텀하여 인바이츠앱에 사용 (원형 그래프)
 
 #### pubspec.yaml
 ```dart
@@ -8,6 +8,10 @@
       url: git@github.com:hconnectdx/kdGaugeViewFlutter.git
       ref: 1.0.9-custom #태그를 사용하여 버전관리 함
 ```
+<image src=https://github.com/hconnectdx/kdGaugeViewFlutter/assets/107895890/95f273ad-86d2-4c6e-a118-41fca2bc16ad width=400/>
+	
+---
+
 
 # KdGaugeViewFlutter
 KDGaugeView is a simple and customizable gauge control for Android inspired by [KdGaugeView](https://github.com/Sorbh/kdgaugeView)
